@@ -103,21 +103,30 @@ function App() {
   }, [isMobileMenuOpen])
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visibleSection = entries.find((entry) => entry.isIntersecting)
-        if (visibleSection) {
-          setActiveSection(visibleSection.target.id)
-        }
-      },
-      { rootMargin: '-25% 0px -65% 0px' }
-    )
+    const sections = [...document.querySelectorAll('main section[id]')]
+    const updateActiveSection = () => {
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 1) {
+        setActiveSection(sections.at(-1)?.id ?? 'home')
+        return
+      }
 
-    document.querySelectorAll('main section[id]').forEach((section) => {
-      observer.observe(section)
-    })
+      const activationPoint = window.innerHeight * 0.4
+      const currentSection = sections.find((section) => {
+        const bounds = section.getBoundingClientRect()
+        return bounds.top <= activationPoint && bounds.bottom > activationPoint
+      })
 
-    return () => observer.disconnect()
+      if (currentSection) setActiveSection(currentSection.id)
+    }
+
+    window.addEventListener('scroll', updateActiveSection, { passive: true })
+    window.addEventListener('resize', updateActiveSection)
+    updateActiveSection()
+
+    return () => {
+      window.removeEventListener('scroll', updateActiveSection)
+      window.removeEventListener('resize', updateActiveSection)
+    }
   }, [])
 
   useEffect(() => {
@@ -525,6 +534,8 @@ function App() {
                       <a
                         href={item.url}
                         className="contact-link"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         aria-label={item.label || 'Contact link'}
                         title={item.label || 'Contact link'}
                       >

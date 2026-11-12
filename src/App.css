@@ -322,17 +322,17 @@ h2 {
 .skill-item {
   min-width: 0;
   overflow-wrap: anywhere;
-  border: 1px solid #dddddd;
-  border-radius: 8px;
-  padding: 18px 10px;
+  border: 0;
+  border-radius: 6px;
+  padding: 8px 12px;
+  background: #f7f7f7;
   text-align: center;
   font-size: 14px;
-  transition: 0.3s;
+  transition: background 0.2s, color 0.2s;
 }
 
 .skill-item:hover {
-  background: #171717;
-  color: #ffffff;
+  background: #eeeeee;
 }
 
 /* PROJECTS */

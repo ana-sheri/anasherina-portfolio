@@ -140,6 +140,13 @@ button,
   margin: 0 0 20px;
 }
 
+.career-status > div {
+  min-width: 0;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: var(--status-background);
+}
+
 .career-status-dot {
   position: relative;
   flex: 0 0 10px;
@@ -162,18 +169,22 @@ button,
 
 .career-status--green {
   --status-color: #3f7654;
+  --status-background: #eef5f0;
 }
 
 .career-status--blue {
   --status-color: #486d94;
+  --status-background: #eef3f8;
 }
 
 .career-status--yellow {
   --status-color: #a17b2c;
+  --status-background: #f8f4e9;
 }
 
 .career-status--gray {
   --status-color: #777777;
+  --status-background: #f1f1f1;
 }
 
 .career-status-label {
@@ -645,7 +656,6 @@ footer {
   aspect-ratio: 1 / 1;
   object-fit: cover;
   border-radius: 8px;
-  filter: grayscale(100%);
 }
 
 /* LARGE DESKTOPS */

@@ -41,7 +41,8 @@ export function loadPortfolioData() {
         skills: Array.isArray(data.skills) ? data.skills : [],
         projects: Array.isArray(data.projects) ? data.projects : [],
         achievements: Array.isArray(data.achievements) ? data.achievements : [],
-        contact: Array.isArray(data.contact) ? data.contact : []
+        contact: Array.isArray(data.contact) ? data.contact : [],
+        status: Array.isArray(data.status) ? data.status : []
       })
     }
 
@@ -55,6 +56,7 @@ export function loadPortfolioData() {
 
     const url = new URL(endpointUrl)
     url.searchParams.set('callback', callbackName)
+    url.searchParams.set('_', String(Date.now()))
     script.src = url.toString()
     document.head.appendChild(script)
   })

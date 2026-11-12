@@ -142,6 +142,17 @@ function App() {
     .filter((achievement) => achievement?.visible !== false && achievement?.title)
     .sort((a, b) => (Number(a.order) || 0) - (Number(b.order) || 0))
   const previewAchievements = achievements.slice(0, 3)
+  const careerStatus = (portfolio?.status ?? []).find((status) => {
+    const isHidden =
+      status?.visible === false ||
+      String(status?.visible).trim().toUpperCase() === 'FALSE'
+    return !isHidden && typeof status?.statusLabel === 'string' && status.statusLabel.trim()
+  })
+  const careerStatusType = ['green', 'blue', 'yellow', 'gray'].includes(
+    String(careerStatus?.statusType).trim().toLowerCase()
+  )
+    ? String(careerStatus.statusType).trim().toLowerCase()
+    : 'gray'
   const contactItems = (portfolio?.contact ?? []).filter(
     (item) => item?.visible !== false && (item?.label || item?.value)
   )
@@ -259,6 +270,20 @@ function App() {
             <p className="eyebrow">WELCOME TO MY PORTFOLIO</p>
 
             {about.name && <h1>{about.name}</h1>}
+            {careerStatus && (
+              <div className={`career-status career-status--${careerStatusType}`}>
+                <span className="career-status-dot" aria-hidden="true" />
+                <div>
+                  <p className="career-status-label">{careerStatus.statusLabel.trim()}</p>
+                  {typeof careerStatus.statusDescription === 'string' &&
+                    careerStatus.statusDescription.trim() && (
+                      <p className="career-status-description">
+                        {careerStatus.statusDescription.trim()}
+                      </p>
+                    )}
+                </div>
+              </div>
+            )}
             {about.careerInterests && <h2>{about.careerInterests}</h2>}
             {about.introduction && <p className="hero-description">{about.introduction}</p>}
 

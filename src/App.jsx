@@ -2,6 +2,14 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import { loadPortfolioData } from './portfolioData.js'
 import { Mail, Link as LinkIcon } from 'lucide-react'
+import {
+  AboutSkeleton,
+  AchievementsSkeleton,
+  ContactSkeleton,
+  HeroSkeleton,
+  ProjectsSkeleton,
+  SkillsSkeleton
+} from './PortfolioSkeletons.jsx'
 
 function getImageUrl(value) {
   if (typeof value !== 'string') return ''
@@ -252,9 +260,9 @@ function App() {
 
       <main aria-busy={isLoading}>
         {isLoading && (
-          <p className="data-message" role="status">
-            Loading portfolio content…
-          </p>
+          <span className="sr-only" role="status">
+            Loading portfolio content
+          </span>
         )}
         {loadError && (
           <div className="data-message data-error" role="alert">
@@ -266,41 +274,51 @@ function App() {
         )}
 
         <section id="home" className="hero section">
-          <div className="hero-content">
-            <p className="eyebrow">WELCOME TO MY PORTFOLIO</p>
+          {isLoading ? (
+            <HeroSkeleton />
+          ) : !loadError ? (
+            <>
+              <div className="hero-content">
+                <p className="eyebrow">WELCOME TO MY PORTFOLIO</p>
 
-            {about.name && <h1>{about.name}</h1>}
-            {careerStatus && (
-              <div className={`career-status career-status--${careerStatusType}`}>
-                <span className="career-status-dot" aria-hidden="true" />
-                <div className="career-status-copy">
-                  <p className="career-status-label">{careerStatus.statusLabel.trim()}</p>
-                  {typeof careerStatus.statusDescription === 'string' &&
-                    careerStatus.statusDescription.trim() && (
-                      <p className="career-status-description">
-                        {careerStatus.statusDescription.trim()}
-                      </p>
-                    )}
-                </div>
+                {about.name && <h1>{about.name}</h1>}
+                {careerStatus && (
+                  <div className={`career-status career-status--${careerStatusType}`}>
+                    <span className="career-status-dot" aria-hidden="true" />
+                    <div className="career-status-copy">
+                      <p className="career-status-label">{careerStatus.statusLabel.trim()}</p>
+                      {typeof careerStatus.statusDescription === 'string' &&
+                        careerStatus.statusDescription.trim() && (
+                          <p className="career-status-description">
+                            {careerStatus.statusDescription.trim()}
+                          </p>
+                        )}
+                    </div>
+                  </div>
+                )}
+                {about.careerInterests && <h2>{about.careerInterests}</h2>}
+                {about.introduction && (
+                  <p className="hero-description">{about.introduction}</p>
+                )}
+
+                <a href="#projects" className="primary-button">
+                  Explore My Projects
+                </a>
               </div>
-            )}
-            {about.careerInterests && <h2>{about.careerInterests}</h2>}
-            {about.introduction && <p className="hero-description">{about.introduction}</p>}
 
-            <a href="#projects" className="primary-button">
-              Explore My Projects
-            </a>
-          </div>
-
-          {profileImage && (
-            <div className="profile-container">
-              <img
-                src={profileImageFailed ? '/profile.jpg' : profileImage}
-                alt={about.name ? `Portrait of ${about.name}` : 'Profile portrait'}
-                className="profile-picture"
-                onError={() => setProfileImageFailed(true)}
-              />
-            </div>
+              {profileImage && (
+                <div className="profile-container">
+                  <img
+                    src={profileImageFailed ? '/profile.jpg' : profileImage}
+                    alt={about.name ? `Portrait of ${about.name}` : 'Profile portrait'}
+                    className="profile-picture"
+                    onError={() => setProfileImageFailed(true)}
+                  />
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="hero-content" />
           )}
         </section>
 
@@ -309,7 +327,9 @@ function App() {
           <h2 className="section-title">About Me.</h2>
 
           
-          {about.aboutDescription || about.introduction ? (
+          {isLoading ? (
+            <AboutSkeleton />
+          ) : about.aboutDescription || about.introduction ? (
             <p className="section-description">
               {about.aboutDescription || about.introduction}
             </p>
@@ -320,14 +340,14 @@ function App() {
           ) : null}
 
 
-          {(about.education || about.school) && (
+          {!isLoading && (about.education || about.school) && (
             <div className="education">
               <p className="small-label">EDUCATION</p>
               {about.education && <h3>{about.education}</h3>}
               {about.school && <p>{about.school}</p>}
             </div>
           )}
-          {about.careerInterests && (
+          {!isLoading && about.careerInterests && (
             <div className="career-interests">
               <p className="small-label">CAREER INTERESTS</p>
               <p>{about.careerInterests}</p>
@@ -339,7 +359,9 @@ function App() {
           <p className="eyebrow">WHAT I WORK WITH</p>
           <h2 className="section-title">My Skills.</h2>
 
-          {skillCategories.map((category) => (
+          {isLoading ? (
+            <SkillsSkeleton />
+          ) : skillCategories.map((category) => (
             <div className="skill-category" key={category}>
               <h3>{category}</h3>
               <div className="skills-grid">
@@ -362,7 +384,9 @@ function App() {
           <p className="eyebrow">MY RECENT WORK</p>
           <h2 className="section-title">Selected Projects.</h2>
 
-          {projects.length > 0 && (
+          {isLoading ? (
+            <ProjectsSkeleton />
+          ) : projects.length > 0 && (
             <div className="projects-grid">
               {projects.map((project, index) => (
                 <article className="project-card" key={`${project.title}-${index}`}>
@@ -401,7 +425,9 @@ function App() {
           <p className="eyebrow">MILESTONES</p>
           <h2 className="section-title">Achievements.</h2>
 
-          {previewAchievements.length > 0 && (
+          {isLoading ? (
+            <AchievementsSkeleton />
+          ) : previewAchievements.length > 0 && (
             <ul className="achievement-list">
               {previewAchievements.map((achievement, index) => {
                 const imageUrl = getImageUrl(achievement.imageUrl)
@@ -481,7 +507,9 @@ function App() {
           <p className="eyebrow">LET'S CONNECT</p>
           <h2 className="section-title">Contact Me.</h2>
 
-          {contactItems.length > 0 ? (
+          {isLoading ? (
+            <ContactSkeleton />
+          ) : contactItems.length > 0 ? (
             <ul className="contact-links">
               {contactItems.map((item, index) => {
                 const label = item.label?.trim().toLowerCase()

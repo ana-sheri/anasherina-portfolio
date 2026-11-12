@@ -504,7 +504,7 @@ function App() {
               type="button"
               onClick={() => setShowAllAchievements(true)}
             >
-              View all certificates ({achievements.length})
+              View all achievements ({achievements.length})
             </button>
           )}
           {!isLoading && !loadError && achievements.length === 0 && (

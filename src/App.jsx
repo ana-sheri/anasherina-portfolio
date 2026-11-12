@@ -273,7 +273,7 @@ function App() {
             {careerStatus && (
               <div className={`career-status career-status--${careerStatusType}`}>
                 <span className="career-status-dot" aria-hidden="true" />
-                <div>
+                <div className="career-status-copy">
                   <p className="career-status-label">{careerStatus.statusLabel.trim()}</p>
                   {typeof careerStatus.statusDescription === 'string' &&
                     careerStatus.statusDescription.trim() && (

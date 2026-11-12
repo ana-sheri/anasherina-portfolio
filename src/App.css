@@ -133,18 +133,19 @@ button,
 }
 
 .career-status {
-  display: flex;
+  display: inline-flex;
   align-items: flex-start;
-  gap: 10px;
+  gap: 9px;
   max-width: 100%;
   margin: 0 0 20px;
-}
-
-.career-status > div {
   min-width: 0;
   padding: 8px 12px;
   border-radius: 8px;
   background: var(--status-background);
+}
+
+.career-status-copy {
+  min-width: 0;
 }
 
 .career-status-dot {
@@ -152,7 +153,7 @@ button,
   flex: 0 0 10px;
   width: 10px;
   height: 10px;
-  margin-top: 7px;
+  margin-top: 4px;
   border-radius: 50%;
   background: var(--status-color);
 }
